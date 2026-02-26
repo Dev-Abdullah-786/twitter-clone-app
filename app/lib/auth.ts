@@ -3,7 +3,7 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 
-interface UserWithId {
+export interface UserWithId {
   id?: string;
   name?: string | null;
   email?: string | null;
