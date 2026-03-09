@@ -19,7 +19,10 @@
     "next-auth": "^4.24.13",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-file-drop": "^3.1.6"
+    "react-file-drop": "^3.1.6",
+    "react-flip-numbers": "^3.0.9",
+    "react-spinners": "^0.17.0",
+    "react-time-ago": "^7.4.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
