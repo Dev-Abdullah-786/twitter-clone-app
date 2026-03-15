@@ -3,6 +3,7 @@ import { initMongoose } from "../lib/mongoose";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions, UserWithId } from "../lib/auth";
 import { NextApiRequest, NextApiResponse } from "next";
+import Follower, { IFollower } from "../models/Follower";
 
 export default async function handle(
   req: NextApiRequest,
@@ -49,6 +50,11 @@ export default async function handle(
       return;
     }
 
-    res.json({ user });
+    const follow: IFollower | null = await Follower.findOne({
+      source: (session?.user as UserWithId).id,
+      destination: user._id,
+    });
+
+    res.json({ user, follow });
   }
 }
