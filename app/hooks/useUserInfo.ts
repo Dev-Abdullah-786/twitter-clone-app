@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 interface User {
-  id: string;
+  _id: string;
   name?: string;
   email?: string;
   image?: string;
@@ -41,7 +41,15 @@ export default function useUserInfo(): UseUserInfoReturn {
         const response = await fetch(`/api/users?id=${user.id}`);
         const json = await response.json();
 
-        setUserInfo(json.user);
+        const userData: User = {
+          _id: json.user.id,
+          name: json.user.name,
+          email: json.user.email,
+          image: json.user.image,
+          username: json.user.username,
+        };
+
+        setUserInfo(userData);
         setStatus("authenticated");
       } catch (error) {
         console.error("Failed to fetch user info:", error);
