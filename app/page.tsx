@@ -100,6 +100,16 @@ export default function Home() {
                   </div>
                 </div>
               )}
+              <PostContent
+                text={post.text}
+                author={post.author}
+                createdAt={post.createdAt}
+                _id={post._id}
+                likesCount={post.likesCount}
+                likedByMe={idsLikedByMe.includes(post._id)}
+                commentsCount={post.commentsCount}
+                images={post.images}
+              />
             </div>
           ))}
       </div>
