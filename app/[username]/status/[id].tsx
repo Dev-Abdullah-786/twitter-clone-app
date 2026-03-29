@@ -78,6 +78,20 @@ export default function PostPage() {
               </div>
             </div>
           )}
+
+          <div>
+            <PostContent
+              text={post.text}
+              author={post.author}
+              createdAt={post.createdAt}
+              _id={post._id}
+              likesCount={post.likesCount}
+              likedByMe={post.likedByMe}
+              commentsCount={post.commentsCount}
+              images={post.images}
+              big={true}
+            />
+          </div>
         </div>
       )}
     </Layout>
