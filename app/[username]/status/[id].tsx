@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import Layout from "@/app/components/Layout";
+import PostForm from "@/app/components/PostForm";
+import useUserInfo from "@/app/hooks/useUserInfo";
 import TopNavLink from "@/app/components/TopNavLink";
 import PostContent from "@/app/components/PostContent";
 import { useEffect, useState, useCallback } from "react";
@@ -31,6 +33,7 @@ interface PostResponse {
 export default function PostPage() {
   const router = useRouter();
   const { id } = router.query;
+  const { userInfo } = useUserInfo();
   const [post, setPost] = useState<Post | null>(null);
 
   const fetchData = useCallback(() => {
@@ -92,6 +95,17 @@ export default function PostPage() {
               big={true}
             />
           </div>
+        </div>
+      )}
+
+      {userInfo && (
+        <div className="border-t border-twitterBorder py-5">
+          <PostForm
+            onPost={fetchData}
+            parent={id as string}
+            compact
+            placeholder="Tweet your reply"
+          />
         </div>
       )}
     </Layout>
