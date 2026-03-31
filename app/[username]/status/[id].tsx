@@ -30,11 +30,18 @@ interface PostResponse {
   post: Post;
 }
 
+interface RepliesResponse {
+  posts: Post[];
+  idsLikedByMe: string[];
+}
+
 export default function PostPage() {
   const router = useRouter();
   const { id } = router.query;
   const { userInfo } = useUserInfo();
+  const [replies, setReplies] = useState<Post[]>([]);
   const [post, setPost] = useState<Post | null>(null);
+  const [repliesLikedByMe, setRepliesLikedByMe] = useState<string[]>([]);
 
   const fetchData = useCallback(() => {
     if (!id || typeof id !== "string") {
@@ -48,6 +55,16 @@ export default function PostPage() {
       })
       .catch((error) => {
         console.error("Error fetching post:", error);
+      });
+
+    axios
+      .get<RepliesResponse>("/api/posts?parent=" + id)
+      .then((response) => {
+        setReplies(response.data.posts);
+        setRepliesLikedByMe(response.data.idsLikedByMe);
+      })
+      .catch((error) => {
+        console.error("Error fetching replies:", error);
       });
   }, [id]);
 
@@ -108,6 +125,24 @@ export default function PostPage() {
           />
         </div>
       )}
+
+      <div>
+        {replies.length > 0 &&
+          replies.map((reply) => (
+            <div className="p-5 border-t border-twitterBorder" key={reply._id}>
+              <PostContent
+                text={reply.text}
+                author={reply.author}
+                createdAt={reply.createdAt}
+                _id={reply._id}
+                likesCount={reply.likesCount}
+                likedByMe={repliesLikedByMe.includes(reply._id)}
+                commentsCount={reply.commentsCount}
+                images={reply.images}
+              />
+            </div>
+          ))}
+      </div>
     </Layout>
   );
 }
